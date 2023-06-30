@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        .table {
+            background-color: #fff;
+            border: #ae0072 solid 2px;
+            width: inherit;
+        }
+
+        .td {
+            border: 20px solid #a4066d;
+            padding-left: 15px;
+        }
+
+        .td2 {
+            border: 10px solid #000;
+        }
+
+        .tr {
+        }
+
+        .img {
+            width: 65px;
+        }
+
+        .title {
+            font: bold 15px verdana;
+            color: deeppink;
+        }
+
+        .puantext {
+            color: #3f3f3f;
+            font: bold 11px verdana;
+        }
+
+        .tbody {
+            float: left;
+        }
+    </style>
+    <title>ConnectTA</title>
+</head>
+<body><h3></h3>
+<hr>
+<div class="divv">
+    <table class="table">
+        <tbody class="tbody">
+
+        </tbody>
+    </table>
+</div>
+<script>
+    let interval = 20
+    let trList = document.querySelectorAll("tr");
+    let btnCount = Math.ceil(trList.length / interval);
+
+    let selectBox = document.createElement("SELECT");
+    selectBox.setAttribute("style", "float: inline-end;padding: 5px;font-size: 15px;border-block-color: azure;border-color: #ae0072;border-radius: 5px;background: transparent;font-weight: bold;");
+
+    for (let i = 1; i <= btnCount; i++) {
+        let option = document.createElement("option");
+        option.value = interval * i;
+        option.innerText = interval * i;
+        selectBox.appendChild(option);
+    }
+    document.querySelector("body>h3").appendChild(selectBox);
+
+    let selectVal = parseInt(selectBox.value);
+
+
+    let div = document.createElement("DIV");
+    div.setAttribute("id", "btnalani")
+    div.setAttribute("style", "margin: 2% auto 8%;width: 100%;height: max-content;max-width: max-content;");
+    document.body.appendChild(div);
+
+    selectBox.addEventListener("change", e => firstLoad(), false)
+
+    function firstLoad() {
+
+        selectVal = parseInt(selectBox.value);
+        btnCount = Math.ceil(trList.length / selectVal);
+
+        //per load Reset Paginate Button
+        document.querySelectorAll(".btnclass").forEach(function (btn) {
+            if (btn !== undefined)
+                btn.remove();
+        });
+        //per load Reset Paginate Button end
+
+        //per load ReCreate Paginate Button
+        for (let i = 0; i < btnCount; i++) {
+            div.appendChild(paginateBtn(i, selectVal * i, i + 1 + "."));
+        }
+        div.appendChild(paginateBtn(-1, -1, "Tümü"));
+        //per load ReCreate Paginate Button end
+
+        show(0);
+    }
+
+    firstLoad();
+
+    function hideAll() {
+        for (let i = 0; i < trList.length; i++) {
+            trList[i].style.display = "none";
+        }
+    }
+
+    function show(start) {
+
+        start = parseInt(start)
+        if (start === -1) {
+
+            for (let i = 0; i < trList.length; i++) {
+                trList[i].style.display = '';
+            }
+
+        } else {
+
+            hideAll();
+
+            let toEnd = start + selectVal;
+
+            for (let i = start; i < toEnd; i++) {
+                if (trList[i] !== undefined)
+                    trList[i].style.display = '';
+            }
+        }
+        window.scrollTo(0, 0);
+    }
+
+    //Paginate Button Element
+    function paginateBtn(index, intervalVal, text) {
+        let btn = document.createElement("SPAN");
+        btn.setAttribute("class", "btnclass");
+        btn.setAttribute("onclick", "show('" + intervalVal + "');");
+        btn.setAttribute("style", "border: 1px solid #ae0072;cursor: pointer;float: left;margin: 5px;text-align: center;padding: 10px; border-radius: 4px;");
+        btn.innerText = text;
+        return btn;
+    }
+
+    //Paginate Button Element end
+</script>
+<script>
+    document.querySelector("table").style.width = '100%';
+    document.querySelector("tbody").style.width = '100%';
+
+    //Titles Display Settings
+    let titles = document.querySelectorAll("tr>td>a>span");
+    titles.forEach(function (e) {
+        e.parentElement.parentElement.style.width = '100%';
+    });
+    //Titles Display Settings End
+
+    // Paginate Selected Button Preview
+    let temp = undefined;
+    document.getElementById("btnalani").addEventListener("click", e => {
+        if (temp !== undefined) {
+            temp.style.background = '';
+            temp.style.color = "";
+        }
+        temp = e.target;
+        e.target.style.background = '#ae0072';
+        e.target.style.color = "white";
+    });
+    // Paginate Selected Button Preview end
+</script>
+</body>
+</html>
