@@ -32,6 +32,7 @@ def save_type_menu(movies, tp):
 
         print("1 - Txt Olarak Kaydet")
         print("2 - Html Olarak Kaydet")
+        print("3 - Html Olarak Kaydet (Datatable)")
 
         print("\n0 - Ana Menüye Dön")
 
@@ -42,7 +43,11 @@ def save_type_menu(movies, tp):
             input()
 
         if save_opt == 2:
-            save_list.save_html(movies, tp)
+            save_list.save_html(movies, tp, mode=1)
+            input()
+
+        if save_opt == 3:
+            save_list.save_html(movies, tp, mode=2)
             input()
 
         if save_opt == 0:
