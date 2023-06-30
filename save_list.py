@@ -1,3 +1,4 @@
+import datetime
 from pathlib import Path
 
 from bs4 import BeautifulSoup
@@ -25,6 +26,7 @@ def empty(movie_url, movie_name, movie_image, movie_imdb):
 def save_html(movies, tp):
     soup = BeautifulSoup(open("empty.html", encoding='utf-8').read(), 'html.parser')
     soup.find("h3").string = f"İzlediğim {tp}ler ({len(movies)} {tp}) (Eklenme Tarihine Göre Yeniden Eskiye)"
+    soup.find("h5").string = datetime.datetime.now().strftime("Tarih: %d.%m.%Y Saat: %H:%M")
     selected = soup.find('tbody', {'class': 'tbody'})
     for movie in movies:
         selected.append(
@@ -39,7 +41,8 @@ def save_html(movies, tp):
 
 def save_txt(movies, tp):
     with open(f'{home_dir}/{tp.lower()}.txt', 'w', encoding='utf-8') as f:
-        f.write(f"İzlediğim {tp}ler ({len(movies)} {tp}) (Eklenme Tarihine Göre Yeniden Eskiye)\n\n")
+        f.write(f"İzlediğim {tp}ler ({len(movies)} {tp}) (Eklenme Tarihine Göre Yeniden Eskiye)\n")
+        f.write(datetime.datetime.now().strftime("Tarih: %d.%m.%Y Saat: %H:%M"))
         for movie in movies:
             f.write("-" * 80)
             f.write(f"\nFilm Adı: {movie['movie_name']}\n")

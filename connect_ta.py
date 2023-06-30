@@ -86,7 +86,8 @@ class ConnectTA:
                                          "movie_url": f"https://turkcealtyazi.org{movie_url}"})
         self.counter += len(elements)
 
-        print(f"\rListelenen: {self.counter} | Tamamlanan: {math.ceil((self.counter / total_item_count) * 100)}%\r",
+        print(f"\rTamamlanan: {self.counter}/{total_item_count} | "
+              f"{math.ceil((self.counter / total_item_count) * 100)}%\r",
               end="")
         time.sleep(1)
         if total_page_count != start_page:
